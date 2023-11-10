@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js"></script>
+    <script>
+        $(() => {
+            const socket = io.connect('http://localhost:3000');
+
+            $('button').on('click', () => {
+                $('.users').append('Bağlandınız.');
+                socket.emit('new-user', {name: $('#name').val()});
+            });
+
+            socket.on('user', data => {
+                $('.users').append('<li> <b>' + data.name + '</b> bağlandı </li>')
+            });           
+
+            socket.on('userData' , (data) => {
+                $('#userData').append(data.city + " Şehirli " + data.name);
+             
+            })
+        });
+       
+    </script>    
+</head>
+<body>
+    
+    
+    <input type="text" placeholder="İsminizi Giriniz" id="name">
+    <button>Bağlan</button>
+
+
+    <ul class="users">
+
+    </ul>
+
+
+
+
+    <div id="merhaba"></div>
+    <div id="userData"></div>
+    <div id="userName"></div>
+</body>
+</html>
